@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FCA Digital Twin — Enterprise Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   FCA DESIGN SYSTEM
+═══════════════════════════════════════════ */
+:root {
+  /* FCA brand palette */
+  --navy:       #003087;
+  --navy-dark:  #00205f;
+  --navy-light: #e8eef7;
+  --blue:       #1565c0;
+  --blue-lt:    #e8f0fb;
+  --teal:       #007680;
+  --teal-lt:    #e0f3f5;
+  --green:      #00703c;
+  --green-lt:   #e8f5ee;
+  --green-dot:  #28a745;
+  --amber:      #c25700;
+  --amber-lt:   #fef2e5;
+  --coral:      #b52a2a;
+  --coral-lt:   #faeaea;
+  --purple:     #5c3fa0;
+  --purple-lt:  #edeafd;
+  --pink:       #8e1a52;
+  --pink-lt:    #fdeaf2;
+  --cyan:       #0077a3;
+  --cyan-lt:    #e3f4fa;
+
+  /* Graph node colours — keep vivid for SVG visibility */
+  --g-blue:   #4a90e2;
+  --g-coral:  #e85555;
+  --g-green:  #22c37a;
+  --g-purple: #8b6cf0;
+  --g-amber:  #f0a322;
+  --g-pink:   #e05090;
+  --g-cyan:   #1bafc2;
+
+  /* Surfaces */
+  --page-bg:   #f3f5f8;
+  --surface:   #ffffff;
+  --surface-2: #f8f9fb;
+  --surface-3: #eef1f6;
+
+  /* Text */
+  --text:   #0b0c0c;
+  --text-2: #454545;
+  --text-3: #6b6b6b;
+  --text-4: #9a9a9a;
+
+  /* Borders */
+  --border:   rgba(0,0,0,.12);
+  --border-2: rgba(0,0,0,.22);
+  --border-3: rgba(0,0,0,.06);
+
+  --font: 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'Courier New', Courier, monospace;
+
+  --radius-sm: 3px;
+  --radius:    5px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  --shadow:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --shadow-md: 0 2px 8px rgba(0,0,0,.1),  0 1px 3px rgba(0,0,0,.06);
+
+  --tr: .18s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--page-bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,.2);
+}
+
+.header-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.header-logo img {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+.header-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border-2);
+  flex-shrink: 0;
+}
+
+.header-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-3);
+  letter-spacing: .01em;
+}
+.header-title strong {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  font-family: var(--mono);
+}
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green-dot);
+  box-shadow: 0 0 6px rgba(40,167,69,.65);
+  animation: blink 2s ease infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+.cognizant-logo {
+  height: 26px;
+  width: auto;
+  display: block;
+}
+
+/* Tab navigation */
+.tab-nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+}
+.tab-nav-inner {
+  display: flex;
+  align-items: center;
+}
+.nav-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 18px;
+  height: 44px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-3);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: color var(--tr), background var(--tr);
+  white-space: nowrap;
+}
+.nav-tab .tab-icon { font-size: 13px; }
+.nav-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--navy);
+  transform: scaleX(0);
+  transition: transform var(--tr);
+}
+.nav-tab.active { color: var(--navy); }
+.nav-tab.active::after { transform: scaleX(1); }
+.nav-tab:hover:not(.active) { color: var(--text-2); background: var(--surface-2); }
+
+/* ═══════════════════════════════════════════
+   VIEWS
+═══════════════════════════════════════════ */
+.view { display: none; animation: fadeIn .3s ease both; }
+.view.active { display: block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+/* ═══════════════════════════════════════════
+   DIGITAL TWIN VIEW
+═══════════════════════════════════════════ */
+.dt-page { max-width: 1140px; margin: 0 auto; padding: 36px 32px 80px; }
+
+.dt-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 40px;
+  padding: 32px 36px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--navy);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+.dt-hero-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background: var(--navy-light);
+  border: 1px solid rgba(0,48,135,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dt-hero-badge svg { width: 28px; height: 28px; }
+.dt-hero-text h1 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  line-height: 1.3;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.dt-hero-text h1 span { color: var(--blue); }
+.dt-hero-text p { font-size: 13.5px; color: var(--text-2); line-height: 1.65; max-width: 620px; }
+.dt-hero-tag {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--teal);
+  background: var(--teal-lt);
+  border: 1px solid rgba(0,118,128,.18);
+  border-radius: var(--radius-sm);
+  padding: 3px 10px;
+  font-family: var(--mono);
+}
+
+/* Stats */
+.dt-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 32px; }
+.dt-stat {
+  padding: 20px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--navy);
+  border-radius: var(--radius);
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: box-shadow var(--tr), transform var(--tr);
+  cursor: default;
+}
+.dt-stat:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.dt-stat-num {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin-bottom: 5px;
+}
+.dt-stat-num.c-blue   { color: var(--navy); }
+.dt-stat-num.c-cyan   { color: var(--cyan); }
+.dt-stat-num.c-green  { color: var(--green); }
+.dt-stat-num.c-amber  { color: var(--amber); }
+.dt-stat-num.c-purple { color: var(--purple); }
+.dt-stat-label { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .8px; color: var(--text-4); }
+
+/* Sections */
+.dt-section { margin-bottom: 32px; }
+.dt-section-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--navy);
+}
+.dt-section-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.dt-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: var(--navy);
+}
+
+/* Grid */
+.dt-grid { display: grid; gap: 10px; }
+.g4 { grid-template-columns: repeat(4,1fr); }
+.g3 { grid-template-columns: repeat(3,1fr); }
+.g2 { grid-template-columns: repeat(2,1fr); }
+
+/* Cards */
+.dt-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  transition: box-shadow var(--tr), border-color var(--tr);
+  cursor: default;
+}
+.dt-card:hover { box-shadow: var(--shadow-md); border-color: var(--border-2); }
+.dt-card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.dt-card-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+.dt-card-title { font-size: 13.5px; font-weight: 600; color: var(--text); }
+.dt-card-sub { font-size: 12.5px; color: var(--text-2); line-height: 1.55; }
+.dt-card-pills { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+
+/* Pills */
+.dt-pill {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  letter-spacing: .2px;
+  white-space: nowrap;
+}
+.pill-blue   { background: var(--blue-lt);   color: var(--navy);   border: 1px solid rgba(0,48,135,.15); }
+.pill-cyan   { background: var(--cyan-lt);   color: var(--cyan);   border: 1px solid rgba(0,119,163,.18); }
+.pill-teal   { background: var(--teal-lt);   color: var(--teal);   border: 1px solid rgba(0,118,128,.18); }
+.pill-green  { background: var(--green-lt);  color: var(--green);  border: 1px solid rgba(0,112,60,.15); }
+.pill-amber  { background: var(--amber-lt);  color: var(--amber);  border: 1px solid rgba(194,87,0,.18); }
+.pill-coral  { background: var(--coral-lt);  color: var(--coral);  border: 1px solid rgba(181,42,42,.15); }
+.pill-purple { background: var(--purple-lt); color: var(--purple); border: 1px solid rgba(92,63,160,.15); }
+.pill-pink   { background: var(--pink-lt);   color: var(--pink);   border: 1px solid rgba(142,26,82,.15); }
+.pill-ghost  { background: var(--surface-3); color: var(--text-2); border: 1px solid var(--border); }
+
+/* Flow diagram */
+.dt-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 24px;
+  flex-wrap: wrap;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.flow-node {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  min-width: 120px;
+  color: var(--text);
+}
+.flow-node.hi  { border-color: rgba(0,48,135,.3); background: var(--blue-lt); }
+.flow-node.alt { border-color: rgba(0,112,60,.25); background: var(--green-lt); }
+.flow-node small { display: block; font-size: 10px; font-weight: 400; color: var(--text-3); margin-top: 3px; }
+.flow-arr { width: 28px; display: flex; align-items: center; justify-content: center; color: var(--text-4); flex-shrink: 0; }
+.flow-arr svg { width: 28px; height: 10px; }
+
+/* Tag cloud */
+.dt-cloud { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* CTA */
+.dt-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  border: none;
+  background: var(--navy);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+  letter-spacing: .01em;
+  box-shadow: 0 2px 8px rgba(0,48,135,.25);
+  transition: all var(--tr);
+}
+.dt-cta-btn:hover { background: var(--navy-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,48,135,.3); }
+
+/* ═══════════════════════════════════════════
+   AGENT NETWORK VIEW
+═══════════════════════════════════════════ */
+.an-page { padding: 0 0 48px; }
+
+.an-hero {
+  padding: 36px 40px 24px;
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+}
+.an-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse 80% 70% at 65% 40%, rgba(255,255,255,.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.an-hero-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+.hero-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all .4s;
+}
+.hero-dot.idle   { background: rgba(255,255,255,.3); }
+.hero-dot.active { background: #5bc8ff; box-shadow: 0 0 10px rgba(91,200,255,.5); animation: blink 2s ease infinite; }
+.hero-dot.done   { background: var(--green-dot); box-shadow: 0 0 8px rgba(40,167,69,.5); }
+
+.an-phase-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,.75);
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: var(--radius-sm);
+  padding: 3px 12px;
+  font-family: var(--mono);
+  letter-spacing: .3px;
+}
+.an-hero h1 {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.15;
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+}
+.an-hero h1 span { color: #7ec8ff; }
+.an-hero-sub {
+  font-size: 15px;
+  color: rgba(255,255,255,.65);
+  margin-top: 8px;
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  line-height: 1.6;
+}
+
+.an-main { display: grid; grid-template-columns: 1fr 390px; gap: 0; padding: 24px 40px 0; }
+
+.an-graph-wrap {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  min-height: 460px;
+  box-shadow: var(--shadow);
+}
+.an-graph-wrap svg { width: 100%; height: 100%; display: block; }
+.an-graph-wrap svg text { font-family: var(--font); }
+
+.an-input { padding: 0 0 0 24px; display: flex; flex-direction: column; }
+.an-input label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+.an-input textarea {
+  width: 100%;
+  min-height: 140px;
+  padding: 13px;
+  font-size: 14px;
+  line-height: 1.6;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  resize: none;
+  font-family: var(--font);
+  outline: none;
+  box-shadow: var(--shadow);
+  transition: border-color var(--tr), box-shadow var(--tr);
+}
+.an-input textarea::placeholder { color: var(--text-4); }
+.an-input textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(0,48,135,.1); }
+
+.btn {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--font);
+  letter-spacing: .01em;
+  transition: all var(--tr);
+  margin-top: 10px;
+}
+.btn-go {
+  background: var(--navy);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0,48,135,.22);
+}
+.btn-go:hover:not(:disabled) { background: var(--navy-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,48,135,.28); }
+.btn-go:disabled { background: var(--surface-3); color: var(--text-4); cursor: default; box-shadow: none; }
+.btn-halt { background: var(--coral-lt); color: var(--coral); border: 1px solid rgba(181,42,42,.22); }
+.btn-halt:hover { background: rgba(181,42,42,.12); }
+
+.an-examples { margin-top: 16px; }
+.ex-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-4); margin-bottom: 8px; }
+.ex-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 9px 12px;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  font-family: var(--font);
+  background: var(--surface);
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--tr);
+  box-shadow: var(--shadow);
+}
+.ex-btn:hover { border-color: var(--navy); background: var(--blue-lt); color: var(--navy); }
+
+.an-agents { padding: 28px 40px; }
+.an-agents h2 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 14px; letter-spacing: -.01em; }
+.agent-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+
+.agent-widget {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 13px 14px;
+  box-shadow: var(--shadow);
+  transition: all var(--tr);
+  position: relative;
+  overflow: hidden;
+}
+.agent-widget::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  opacity: .6;
+  transition: opacity var(--tr);
+}
+.agent-widget:hover { box-shadow: var(--shadow-md); border-color: var(--border-2); }
+.agent-widget:hover::before { opacity: 1; }
+.aw-head { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.aw-icon { width: 28px; height: 28px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.aw-name { font-size: 12.5px; font-weight: 700; color: var(--text); }
+.aw-status {
+  font-size: 9px;
+  font-family: var(--mono);
+  margin-left: auto;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.aw-desc { font-size: 11.5px; line-height: 1.55; color: var(--text-2); }
+
+.an-log { padding: 0 40px 16px; }
+.an-log h3 { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--text-3); margin-bottom: 8px; }
+.log-box {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  max-height: 150px;
+  overflow-y: auto;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 2;
+  color: var(--text-3);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.04);
+}
+.log-box .sys { color: var(--green); }
+.log-box .err { color: var(--coral); }
+.log-box::-webkit-scrollbar { width: 4px; }
+.log-box::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 4px; }
+
+.an-output { padding: 0 40px 40px; }
+.an-output h2 { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 16px; letter-spacing: -.01em; }
+.ao-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.ao-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+.ao-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.ao-icon { font-size: 14px; }
+.ao-name { font-size: 13.5px; font-weight: 700; }
+.ao-badge { font-size: 9.5px; padding: 2px 7px; border-radius: var(--radius-sm); margin-left: auto; font-weight: 600; }
+.ao-body { font-size: 13px; line-height: 1.65; color: var(--text-2); }
+.ao-xref { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+.ao-xref-label { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--text-3); margin-bottom: 4px; }
+.ao-xref-body { font-size: 12.5px; line-height: 1.55; color: var(--text-3); font-style: italic; }
+
+/* Briefing */
+.briefing-box {
+  background: var(--blue-lt);
+  border: 1px solid rgba(0,48,135,.18);
+  border-left: 4px solid var(--navy);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-md);
+}
+.brief-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,48,135,.12);
+}
+.brief-star { font-size: 20px; color: var(--navy); }
+.brief-title { font-size: 18px; font-weight: 700; letter-spacing: -.01em; color: var(--navy); }
+.brief-sub { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+.brief-badge { margin-left: auto; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; padding: 4px 12px; border-radius: var(--radius-sm); background: var(--green-lt); color: var(--green); }
+.brief-body { font-size: 14px; line-height: 1.75; color: var(--text-2); }
+.brief-body h2 { font-size: 17px; font-weight: 700; color: var(--blue); margin: 18px 0 6px; }
+.brief-body h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin: 14px 0 5px; }
+.brief-body h4 { font-size: 14px; font-weight: 600; color: var(--navy); margin: 12px 0 4px; }
+.brief-body p { margin-bottom: 6px; }
+.brief-body strong { color: var(--text); font-weight: 600; }
+.brief-body ul, .brief-body ol { padding-left: 20px; margin: 6px 0; }
+.brief-body li { margin-bottom: 4px; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.fade-up { animation: fadeUp .45s ease both; }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+.page-footer {
+  background: var(--navy);
+  color: rgba(255,255,255,.55);
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11.5px;
+  border-top: 3px solid rgba(255,255,255,.08);
+}
+.footer-left { display: flex; flex-direction: column; gap: 2px; }
+.footer-copy { color: rgba(255,255,255,.55); font-size: 11.5px; }
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.footer-powered { font-size: 10.5px; color: rgba(255,255,255,.4); letter-spacing: .2px; }
+.footer-cognizant-logo {
+  height: 22px;
+  width: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: .65;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .header-bar { padding: 0 20px; }
+  .tab-nav { padding: 0 20px; }
+  .dt-page { padding: 24px 20px 60px; }
+  .dt-stats { grid-template-columns: repeat(2,1fr); }
+  .g4 { grid-template-columns: repeat(2,1fr); }
+  .g3 { grid-template-columns: 1fr 1fr; }
+  .an-hero { padding: 24px 20px 16px; }
+  .an-hero h1 { font-size: 26px; }
+  .an-main { grid-template-columns: 1fr; padding: 20px 20px 0; gap: 20px; }
+  .an-input { padding: 0; }
+  .an-agents, .an-log, .an-output { padding-left: 20px; padding-right: 20px; }
+  .agent-grid { grid-template-columns: repeat(2,1fr); }
+  .ao-grid { grid-template-columns: 1fr; }
+  .page-footer { padding: 16px 20px; }
+}
+@media (max-width: 600px) {
+  .header-title { display: none; }
+  .nav-tab { padding: 0 12px; font-size: 12.5px; }
+  .g4,.g3,.g2 { grid-template-columns: 1fr; }
+  .an-hero h1 { font-size: 22px; }
+  .agent-grid { grid-template-columns: 1fr; }
+  .dt-flow { flex-direction: column; }
+  .flow-arr { transform: rotate(90deg); }
+  .page-footer { flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-bar">
+    <a class="header-logo" href="#">
+      <img src="FCAlogo.png" alt="Financial Conduct Authority">
+    </a>
+    <div class="header-divider"></div>
+    <div class="header-title"><strong>Digital Twin</strong> — Enterprise Intelligence Platform</div>
+    <div class="header-right">
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        <span id="navStatus">Platform live</span>
+      </div>
+      <img src="Cognizantlogo.png" alt="Cognizant" class="cognizant-logo">
+    </div>
+  </div>
+  <nav class="tab-nav">
+    <div class="tab-nav-inner">
+      <button class="nav-tab active" id="tab-dt" onclick="switchView('dt')">
+        <span class="tab-icon">◎</span> Digital Twin
+      </button>
+      <button class="nav-tab" id="tab-an" onclick="switchView('an')">
+        <span class="tab-icon">⬡</span> Agent Network
+      </button>
+    </div>
+  </nav>
+</header>
+
+
+<!-- ═══════════════════════════════════════════
+     DIGITAL TWIN VIEW
+═══════════════════════════════════════════ -->
+<div class="view active" id="view-dt">
+<div class="dt-page">
+
+  <div class="dt-hero fade-up">
+    <div class="dt-hero-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+    </div>
+    <div class="dt-hero-text">
+      <h1>Financial Conduct Authority <span>Enterprise Digital Twin</span></h1>
+      <p>A structured knowledge model of the FCA — its mandate, leadership, regulatory architecture, strategic priorities, and operational functions — powering the multi-agent simulation layer.</p>
+      <span class="dt-hero-tag">Est. 2013 · 12 Endeavour Square, London · Independent statutory body</span>
+    </div>
+  </div>
+
+  <div class="dt-stats">
+    <div class="dt-stat fade-up" style="animation-delay:.05s">
+      <div class="dt-stat-num c-blue">~4,500</div>
+      <div class="dt-stat-label">Total staff</div>
+    </div>
+    <div class="dt-stat fade-up" style="animation-delay:.1s">
+      <div class="dt-stat-num c-cyan">~58,000</div>
+      <div class="dt-stat-label">Regulated firms</div>
+    </div>
+    <div class="dt-stat fade-up" style="animation-delay:.15s">
+      <div class="dt-stat-num c-green">£758m</div>
+      <div class="dt-stat-label">Annual budget</div>
+    </div>
+    <div class="dt-stat fade-up" style="animation-delay:.2s">
+      <div class="dt-stat-num c-purple">4</div>
+      <div class="dt-stat-label">Strategic priorities</div>
+    </div>
+  </div>
+
+  <!-- Executive Leadership -->
+  <div class="dt-section fade-up" style="animation-delay:.22s">
+    <div class="dt-section-head">
+      <div class="dt-section-icon" style="background:var(--amber-lt);color:var(--amber);">♛</div>
+      <span class="dt-section-title">Executive leadership</span>
+    </div>
+    <div class="dt-grid g4">
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--amber)"></span><span class="dt-card-title">Nikhil Rathi</span></div>
+        <div class="dt-card-sub">Chief Executive Officer</div>
+        <div class="dt-card-pills"><span class="dt-pill pill-amber">CEO</span></div>
+      </div>
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--blue)"></span><span class="dt-card-title">Sarah Pritchard</span></div>
+        <div class="dt-card-sub">Deputy CEO · Consumers &amp; Competition · International</div>
+      </div>
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--coral)"></span><span class="dt-card-title">Therese Chambers</span></div>
+        <div class="dt-card-sub">Joint ED — Enforcement &amp; Market Oversight</div>
+      </div>
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--cyan)"></span><span class="dt-card-title">Sheldon Mills</span></div>
+        <div class="dt-card-sub">ED — Consumers &amp; Competition</div>
+      </div>
+    </div>
+    <div class="dt-grid g4" style="margin-top:10px">
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--purple)"></span><span class="dt-card-title">David Geale</span></div>
+        <div class="dt-card-sub">ED — Payments &amp; Digital Finance · MD of PSR</div>
+      </div>
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--green)"></span><span class="dt-card-title">Sheree Howard</span></div>
+        <div class="dt-card-sub">ED — Authorisations</div>
+      </div>
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--pink)"></span><span class="dt-card-title">Stephen Braviner Roman</span></div>
+        <div class="dt-card-sub">General Counsel · Legal, Risk &amp; Compliance</div>
+      </div>
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--teal)"></span><span class="dt-card-title">Jessica Sheridan</span></div>
+        <div class="dt-card-sub">ED — Operations (COO)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strategic Priorities -->
+  <div class="dt-section fade-up" style="animation-delay:.27s">
+    <div class="dt-section-head">
+      <div class="dt-section-icon" style="background:var(--blue-lt);color:var(--blue);">⎔</div>
+      <span class="dt-section-title">Strategy 2025–2030 priorities</span>
+    </div>
+    <div class="dt-grid g4">
+      <div class="dt-card" style="border-top:3px solid rgba(0,48,135,.4)">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--navy)"></span><span class="dt-card-title">Smarter regulator</span></div>
+        <div class="dt-card-sub">Predictable, purposeful, proportionate. Digitise processes, embrace technology, reduce reporting burden on firms.</div>
+        <div class="dt-card-pills"><span class="dt-pill pill-blue">Tech-led</span></div>
+      </div>
+      <div class="dt-card" style="border-top:3px solid rgba(0,112,60,.35)">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--green)"></span><span class="dt-card-title">Support growth</span></div>
+        <div class="dt-card-sub">Enable investment, innovation and competitiveness. New secondary objective: facilitate UK growth in medium-to-long term.</div>
+        <div class="dt-card-pills"><span class="dt-pill pill-green">Secondary obj.</span></div>
+      </div>
+      <div class="dt-card" style="border-top:3px solid rgba(194,87,0,.35)">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--amber)"></span><span class="dt-card-title">Help consumers</span></div>
+        <div class="dt-card-sub">Boost trust, product innovation, ensure right information and support for people to take informed financial decisions.</div>
+        <div class="dt-card-pills"><span class="dt-pill pill-amber">Consumer Duty</span></div>
+      </div>
+      <div class="dt-card" style="border-top:3px solid rgba(181,42,42,.35)">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--coral)"></span><span class="dt-card-title">Fight financial crime</span></div>
+        <div class="dt-card-sub">Focus on those using regulated status to do harm. Disrupt criminals, support firms as line of defence.</div>
+        <div class="dt-card-pills"><span class="dt-pill pill-coral">Enforcement</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Divisions -->
+  <div class="dt-section fade-up" style="animation-delay:.3s">
+    <div class="dt-section-head">
+      <div class="dt-section-icon" style="background:var(--cyan-lt);color:var(--cyan);">◈</div>
+      <span class="dt-section-title">Core divisions &amp; directorates</span>
+    </div>
+    <div class="dt-grid g3">
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--g-blue)"></span><span class="dt-card-title">Supervision, Policy &amp; Competition</span></div>
+        <div class="dt-card-sub">Retail banking, consumer finance, insurance, wholesale markets, investment management, cross-cutting policy, competition, sustainable finance</div>
+        <div class="dt-card-pills"><span class="dt-pill pill-blue">Largest division</span></div>
+      </div>
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--coral)"></span><span class="dt-card-title">Enforcement &amp; Market Oversight</span></div>
+        <div class="dt-card-sub">Investigations, market abuse surveillance, insider dealing, listing rule breaches, criminal enforcement, intelligence operations</div>
+        <div class="dt-card-pills"><span class="dt-pill pill-coral">Assertive &amp; faster</span></div>
+      </div>
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--green)"></span><span class="dt-card-title">Authorisations</span></div>
+        <div class="dt-card-sub">Firm permissions gateway, approved persons, senior managers regime, cancellations (121% increase over 3 years), digital application processing</div>
+        <div class="dt-card-pills"><span class="dt-pill pill-green">Gateway function</span></div>
+      </div>
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--cyan)"></span><span class="dt-card-title">Payments &amp; Digital Finance</span></div>
+        <div class="dt-card-sub">Payment Systems Regulator (consolidating into FCA), open banking, digital finance, cryptoasset regime, National Payments Vision</div>
+        <div class="dt-card-pills"><span class="dt-pill pill-cyan">PSR integration</span></div>
+      </div>
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--purple)"></span><span class="dt-card-title">Legal, Risk &amp; Compliance</span></div>
+        <div class="dt-card-sub">Legal advice across portfolio, corporate governance, risk &amp; compliance oversight, complaints, decision-making panels</div>
+        <div class="dt-card-pills"><span class="dt-pill pill-purple">Cross-cutting</span></div>
+      </div>
+      <div class="dt-card">
+        <div class="dt-card-head"><span class="dt-card-dot" style="background:var(--pink)"></span><span class="dt-card-title">Operations</span></div>
+        <div class="dt-card-sub">Finance, people, technology, data &amp; intelligence, communications, strategy &amp; economics, business continuity</div>
+        <div class="dt-card-pills"><span class="dt-pill pill-pink">COO function</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Regulatory Scope -->
+  <div class="dt-section fade-up" style="animation-delay:.33s">
+    <div class="dt-section-head">
+      <div class="dt-section-icon" style="background:var(--green-lt);color:var(--green);">⊙</div>
+      <span class="dt-section-title">Regulatory scope — sectors supervised</span>
+    </div>
+    <div class="dt-grid g4">
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">Retail banking</div><div class="dt-card-sub">Banks, building societies, non-bank lenders, motor finance, consumer credit</div></div>
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">Wholesale markets</div><div class="dt-card-sub">Trading venues, investment banks, brokers, market data, commodities derivatives</div></div>
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">Insurance</div><div class="dt-card-sub">General &amp; life insurance, brokers, Lloyd's market, pure protection</div></div>
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">Investment management</div><div class="dt-card-sub">Asset managers, wealth managers, financial advisers, platforms</div></div>
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">Pensions</div><div class="dt-card-sub">Workplace pensions, SIPPs, pension transfers, value for money</div></div>
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">Payments &amp; e-money</div><div class="dt-card-sub">Payment firms, e-money issuers, open banking, APP fraud</div></div>
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">Cryptoassets</div><div class="dt-card-sub">AML-registered crypto firms, new regulatory regime (2026 gateway), stablecoins, custody</div></div>
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">Capital markets</div><div class="dt-card-sub">Listing rules, prospectus regime, PISCES (private company exchange), IPOs</div></div>
+    </div>
+  </div>
+
+  <!-- Lifecycle -->
+  <div class="dt-section fade-up" style="animation-delay:.36s">
+    <div class="dt-section-head">
+      <div class="dt-section-icon" style="background:var(--purple-lt);color:var(--purple);">⇄</div>
+      <span class="dt-section-title">Regulatory lifecycle</span>
+    </div>
+    <div class="dt-flow">
+      <div class="flow-node hi">Authorisation<small>Firm permissions gateway</small></div>
+      <div class="flow-arr"><svg viewBox="0 0 28 10"><path d="M2 5h20m-4-3.5L22 5l-4 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="flow-node">Supervision<small>Risk-based, data-led</small></div>
+      <div class="flow-arr"><svg viewBox="0 0 28 10"><path d="M2 5h20m-4-3.5L22 5l-4 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="flow-node">Policy &amp; rules<small>Handbook, Consumer Duty</small></div>
+      <div class="flow-arr"><svg viewBox="0 0 28 10"><path d="M2 5h20m-4-3.5L22 5l-4 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="flow-node">Enforcement<small>Investigations, sanctions</small></div>
+      <div class="flow-arr"><svg viewBox="0 0 28 10"><path d="M2 5h20m-4-3.5L22 5l-4 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="flow-node alt">Market integrity<small>Surveillance, deterrence</small></div>
+    </div>
+  </div>
+
+  <!-- Key Frameworks -->
+  <div class="dt-section fade-up" style="animation-delay:.38s">
+    <div class="dt-section-head">
+      <div class="dt-section-icon" style="background:var(--coral-lt);color:var(--coral);">⬡</div>
+      <span class="dt-section-title">Key regulatory frameworks &amp; tools</span>
+    </div>
+    <div class="dt-grid g3">
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">Consumer Duty</div><div class="dt-card-sub">Requires firms to deliver good outcomes for retail customers — fair value, clear communications, appropriate products</div></div>
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">Senior Managers &amp; Certification</div><div class="dt-card-sub">SM&amp;CR — individual accountability for senior persons, fitness &amp; propriety, conduct rules (COCON)</div></div>
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">FCA Handbook</div><div class="dt-card-sub">Comprehensive rulebook — currently being simplified and streamlined under smarter regulator programme</div></div>
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">Market abuse surveillance</div><div class="dt-card-sub">Real-time market monitoring, suspicious transaction reports, reduced assessment time from 3 days to hours</div></div>
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">Regulatory sandbox</div><div class="dt-card-sub">Controlled environment for firms to test innovative products and services under FCA oversight</div></div>
+      <div class="dt-card"><div class="dt-card-title" style="margin-bottom:5px">Crypto permissions gateway</div><div class="dt-card-sub">New authorisation regime for cryptoasset activities — opening September 2026</div></div>
+    </div>
+  </div>
+
+  <!-- Stakeholders -->
+  <div class="dt-section fade-up" style="animation-delay:.4s">
+    <div class="dt-section-head">
+      <div class="dt-section-icon" style="background:var(--surface-3);color:var(--text-3);">◌</div>
+      <span class="dt-section-title">External stakeholders &amp; accountability</span>
+    </div>
+    <div class="dt-cloud">
+      <span class="dt-pill pill-ghost">HM Treasury</span>
+      <span class="dt-pill pill-ghost">Bank of England / PRA</span>
+      <span class="dt-pill pill-ghost">Financial Policy Committee</span>
+      <span class="dt-pill pill-ghost">Financial Ombudsman Service</span>
+      <span class="dt-pill pill-ghost">FSCS</span>
+      <span class="dt-pill pill-ghost">Payment Systems Regulator</span>
+      <span class="dt-pill pill-ghost">Competition &amp; Markets Authority</span>
+      <span class="dt-pill pill-ghost">Information Commissioner's Office</span>
+      <span class="dt-pill pill-ghost">Serious Fraud Office</span>
+      <span class="dt-pill pill-ghost">National Crime Agency</span>
+      <span class="dt-pill pill-ghost">~58,000 regulated firms</span>
+      <span class="dt-pill pill-ghost">Consumer organisations</span>
+      <span class="dt-pill pill-ghost">Industry trade bodies</span>
+      <span class="dt-pill pill-ghost">IOSCO · ESMA</span>
+      <span class="dt-pill pill-ghost">Parliament / Treasury Select Committee</span>
+      <span class="dt-pill pill-ghost">FCA Board</span>
+      <span class="dt-pill pill-ghost">Consumer Panel</span>
+      <span class="dt-pill pill-ghost">Practitioner Panel</span>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div style="text-align:center;padding:36px 0 0" class="fade-up">
+    <button class="dt-cta-btn" onclick="switchView('an')">
+      <span>⬡</span> Activate Agent Network
+    </button>
+    <p style="margin-top:10px;font-size:12px;color:var(--text-3)">Launch the 7-agent FCA simulation with autonomous deliberation and executive briefing synthesis</p>
+  </div>
+
+</div>
+</div><!-- /view-dt -->
+
+
+<!-- ═══════════════════════════════════════════
+     AGENT NETWORK VIEW
+═══════════════════════════════════════════ -->
+<div class="view" id="view-an">
+<div class="an-page">
+
+  <div class="an-hero">
+    <div class="an-hero-top">
+      <div class="hero-dot idle" id="mainDot"></div>
+      <span class="an-phase-tag" id="phaseLabel">Standing by</span>
+    </div>
+    <h1>FCA <span>Agent Network</span></h1>
+    <p class="an-hero-sub">A multi-agent system that mirrors how the Financial Conduct Authority operates — 7 division agents, autonomous deliberation, one executive briefing.</p>
+  </div>
+
+  <div class="an-main">
+    <div class="an-graph-wrap" id="graphPanel"></div>
+    <div class="an-input">
+      <label>Policy scenario</label>
+      <textarea id="scenarioInput" placeholder="Describe a policy scenario, crisis, or regulatory question…"></textarea>
+      <button class="btn btn-go" id="goBtn" onclick="runNetwork()" disabled>Activate network</button>
+      <div class="an-examples">
+        <div class="ex-label">Try a scenario</div>
+        <div id="exList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="an-agents">
+    <h2>Division agents</h2>
+    <div class="agent-grid" id="agentWidgets"></div>
+  </div>
+
+  <div class="an-log">
+    <h3>Activity log</h3>
+    <div class="log-box" id="logPanel"><span style="opacity:.5">// Agent activity will appear here</span></div>
+  </div>
+
+  <div class="an-output" id="outputSection" style="display:none">
+    <h2>Analysis outputs</h2>
+    <div class="ao-grid" id="agentOutputsGrid"></div>
+    <div id="briefingArea"></div>
+  </div>
+
+</div>
+</div><!-- /view-an -->
+
+
+<footer class="page-footer">
+  <div class="footer-left">
+    <span class="footer-copy">FCA Digital Twin &amp; Agent Network · Enterprise Platform · May 2026</span>
+  </div>
+  <div class="footer-right">
+    <span class="footer-powered">Powered by Claude AI</span>
+    <img src="Cognizantlogo.png" alt="Cognizant" class="footer-cognizant-logo">
+  </div>
+</footer>
+
+
+<script>
+/* ─── VIEW SWITCHING ─── */
+function switchView(id) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  if (id==='an' && !graphBuilt) { buildGraph(); buildWidgets(); buildExamples(); graphBuilt=true; }
+}
+let graphBuilt = false;
+
+/* ─── AGENT DATA ─── */
+const AGENTS = [
+  { id:"supervision", short:"Supervision", color:"#4A90E2", icon:"◎",
+    desc:"Oversees conduct of ~58,000 regulated firms through risk-based, data-led supervision across retail and wholesale markets.",
+    mandate:"You are the Supervision, Policy & Competition division of the FCA. Your remit: risk-based supervision of regulated firms across retail banking, consumer finance, insurance, wholesale markets, and investment management. You oversee Consumer Duty compliance, firm categorisation, and direct supervisory engagement. You use data and intelligence to detect harm early and intervene proportionately.",
+    peers:["enforcement","authorisations","payments"] },
+  { id:"enforcement", short:"Enforcement", color:"#E85555", icon:"⚡",
+    desc:"Investigates misconduct, market abuse, and financial crime — pursuing fewer, faster cases for greater deterrent impact.",
+    mandate:"You are the Enforcement & Market Oversight division of the FCA. Your remit: investigations into misconduct by firms and individuals, market abuse surveillance, criminal enforcement, intelligence operations. You aim for fewer but faster investigations with stronger deterrent outcomes.",
+    peers:["supervision","markets","legal"] },
+  { id:"authorisations", short:"Authorisations", color:"#22C37A", icon:"⊞",
+    desc:"Controls the gateway — processing firm applications, approved persons, cancellations, and the new crypto permissions regime.",
+    mandate:"You are the Authorisations division of the FCA. Your remit: firm permissions gateway, approved persons regime, senior managers certification, cancellations (121% increase over 3 years), digital application processing. You are preparing the crypto permissions gateway opening September 2026.",
+    peers:["supervision","payments","legal"] },
+  { id:"payments", short:"Payments & Digital", color:"#8B6CF0", icon:"⬡",
+    desc:"Manages the Payment Systems Regulator integration, open banking, cryptoasset regulation, and the National Payments Vision.",
+    mandate:"You are the Payments & Digital Finance division of the FCA. Your remit: Payment Systems Regulator (consolidating into FCA), open banking and open finance, digital finance innovation, cryptoasset regulatory regime development, National Payments Vision delivery, APP fraud reimbursement policy.",
+    peers:["authorisations","supervision","markets"] },
+  { id:"markets", short:"Markets", color:"#F0A322", icon:"◇",
+    desc:"Ensures wholesale market integrity, oversees listing rules, capital markets reform, and promotes effective competition.",
+    mandate:"You are the Markets & Competition function of the FCA. Your remit: wholesale market oversight, trading venues, investment banks, commodities derivatives regime, new listing rules, prospectus regime, PISCES, competition policy, sustainable finance.",
+    peers:["enforcement","supervision","payments"] },
+  { id:"consumers", short:"Consumer Protection", color:"#E05090", icon:"♦",
+    desc:"Champions consumer outcomes through the Consumer Duty, financial inclusion, pensions policy, and vulnerability frameworks.",
+    mandate:"You are the Consumer Protection function of the FCA. Your remit: Consumer Duty implementation and oversight, consumer finance policy, insurance conduct, pensions, mortgage affordability, financial inclusion, vulnerable customer frameworks, motor finance redress.",
+    peers:["supervision","enforcement","authorisations"] },
+  { id:"legal", short:"Legal & Governance", color:"#1BAFC2", icon:"§",
+    desc:"Provides legal counsel across all FCA operations, manages corporate governance, risk oversight, and decision-making panels.",
+    mandate:"You are the Legal, Risk & Compliance division of the FCA. Your remit: legal advice across the full FCA portfolio, corporate governance, risk & compliance oversight, complaints handling, support to Board and executive committees, independent panels coordination.",
+    peers:["enforcement","authorisations","consumers"] },
+];
+
+const SOS = {
+  id:"sos", short:"CEO Office", color:"#003087", icon:"★",
+  mandate:"You are the FCA Chief Executive's office synthesising division agent outputs into an executive briefing. Produce a concise briefing: (1) headline regulatory assessment, (2) key risks by division, (3) cross-cutting tensions between consumer protection, market integrity, and growth objectives, (4) recommended regulatory response options. Use markdown. Write in FCA executive style — evidence-based, proportionate, action-oriented."
+};
+
+const EXAMPLES = [
+  "A major retail bank's IT systems have failed for 72 hours, locking 8 million customers out of accounts, payments, and mortgage services.",
+  "Intelligence suggests a network of 40 FCA-authorised firms are being used as fronts for organised money laundering totalling £2bn.",
+  "A leading crypto exchange with 3 million UK retail customers has suffered a major security breach, with £500m in customer assets potentially compromised.",
+  "Three large pension providers have been mis-selling retirement products, with estimated consumer losses of £1.2bn across 200,000 customers.",
+];
+
+/* ─── STATE ─── */
+let phase="idle", agentOutputs={}, crossRefOutputs={}, briefingText="", controller=null;
+
+/* ─── GRAPH ─── */
+const GW=680, GH=460, gcx=GW/2, gcy=GH/2;
+const nodePos={};
+
+function buildGraph() {
+  AGENTS.forEach((a,i) => {
+    const ang=(i/AGENTS.length)*Math.PI*2-Math.PI/2;
+    nodePos[a.id]={x:gcx+220*Math.cos(ang), y:gcy+155*Math.sin(ang)};
+  });
+  nodePos.sos={x:gcx, y:gcy};
+
+  const edges=[], edgeSet=new Set();
+  AGENTS.forEach(a=>a.peers.forEach(p=>{
+    const k=[a.id,p].sort().join("-");
+    if(!edgeSet.has(k)){edgeSet.add(k);edges.push({from:a.id,to:p});}
+  }));
+
+  let s=`<svg viewBox="0 0 ${GW} ${GH}" xmlns="http://www.w3.org/2000/svg">`;
+  s+=`<defs>
+    <radialGradient id="cGlow"><stop offset="0%" stop-color="rgba(0,48,135,.05)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+    <filter id="gb1"><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="gb2"><feGaussianBlur stdDeviation="1"/></filter>
+  </defs>
+  <circle cx="${gcx}" cy="${gcy}" r="170" fill="url(#cGlow)"/>`;
+
+  AGENTS.forEach(a=>{
+    const p1=nodePos.sos, p2=nodePos[a.id];
+    s+=`<line class="sos-edge" data-to="${a.id}" x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="rgba(0,48,135,.1)" stroke-width="1" stroke-dasharray="5 6"/>`;
+  });
+
+  edges.forEach(e=>{
+    const p1=nodePos[e.from],p2=nodePos[e.to];
+    s+=`<line class="peer-edge" data-from="${e.from}" data-to="${e.to}" x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="rgba(0,0,0,.08)" stroke-width="1.5"/>`;
+  });
+
+  edges.forEach((e,i)=>{
+    const p1=nodePos[e.from],p2=nodePos[e.to],dur=1.8+(i%4)*.4;
+    s+=`<circle class="particle" data-edge="${e.from}-${e.to}" r="3.5" fill="${AGENTS.find(a=>a.id===e.from).color}" opacity="0" filter="url(#gb2)">
+      <animateMotion dur="${dur}s" repeatCount="indefinite" path="M${p1.x},${p1.y} L${p2.x},${p2.y}"/>
+    </circle>`;
+    s+=`<circle class="particle" data-edge="${e.to}-${e.from}" r="3" fill="${AGENTS.find(a=>a.id===e.to).color}" opacity="0" filter="url(#gb2)">
+      <animateMotion dur="${dur+.3}s" repeatCount="indefinite" path="M${p2.x},${p2.y} L${p1.x},${p1.y}"/>
+    </circle>`;
+  });
+
+  AGENTS.forEach((a,i)=>{
+    const p1=nodePos[a.id],p2=nodePos.sos;
+    s+=`<circle class="sos-particle" data-agent="${a.id}" r="4.5" fill="${a.color}" opacity="0" filter="url(#gb1)">
+      <animateMotion dur="${2+i*.15}s" repeatCount="indefinite" path="M${p1.x},${p1.y} L${p2.x},${p2.y}"/>
+    </circle>`;
+  });
+
+  AGENTS.forEach(a=>{
+    const p=nodePos[a.id];
+    s+=`<g class="anode" data-id="${a.id}">
+      <circle cx="${p.x}" cy="${p.y}" r="34" fill="transparent" stroke="${a.color}30" stroke-width="1.2" class="n-ring" data-id="${a.id}"/>
+      <circle cx="${p.x}" cy="${p.y}" r="23" fill="${a.color}18" stroke="${a.color}" stroke-width="1"/>
+      <text x="${p.x}" y="${p.y+1}" text-anchor="middle" dominant-baseline="central" fill="${a.color}" font-size="17" font-weight="700">${a.icon}</text>
+      <text x="${p.x}" y="${p.y+44}" text-anchor="middle" fill="rgba(0,0,0,.7)" font-size="12" font-weight="600">${a.short}</text>
+      <text x="${p.x}" y="${p.y+57}" text-anchor="middle" fill="rgba(0,0,0,.35)" font-size="9.5" font-weight="500" class="n-status" data-id="${a.id}">standby</text>
+    </g>`;
+  });
+
+  const sp=nodePos.sos;
+  s+=`<g class="anode" data-id="sos">
+    <circle cx="${sp.x}" cy="${sp.y}" r="40" fill="transparent" stroke="rgba(0,48,135,.15)" stroke-width="1" class="n-ring" data-id="sos"/>
+    <circle cx="${sp.x}" cy="${sp.y}" r="27" fill="rgba(0,48,135,.08)" stroke="rgba(0,48,135,.6)" stroke-width="1"/>
+    <text x="${sp.x}" y="${sp.y+1}" text-anchor="middle" dominant-baseline="central" fill="#003087" font-size="20">★</text>
+    <text x="${sp.x}" y="${sp.y-48}" text-anchor="middle" fill="rgba(0,0,0,.7)" font-size="12" font-weight="700">CEO Office</text>
+    <text x="${sp.x}" y="${sp.y-33}" text-anchor="middle" fill="rgba(0,0,0,.35)" font-size="9.5" class="n-status" data-id="sos">awaiting</text>
+  </g>`;
+  s+=`</svg>`;
+  document.getElementById("graphPanel").innerHTML=s;
+}
+
+function gfxNodeUpdate(id, status, active) {
+  const st=document.querySelector(`.n-status[data-id="${id}"]`);
+  const ring=document.querySelector(`.n-ring[data-id="${id}"]`);
+  if(st) st.textContent=status;
+  if(!ring) return;
+  const agent=[...AGENTS,SOS].find(a=>a.id===id);
+  if(active){
+    ring.setAttribute("stroke",agent.color); ring.setAttribute("stroke-width","2.5"); ring.setAttribute("fill",agent.color+"20");
+  } else if(status.includes("done")||status.includes("ready")){
+    ring.setAttribute("stroke","#22C37A"); ring.setAttribute("stroke-width","1.5"); ring.setAttribute("fill","rgba(34,195,122,.08)");
+  } else {
+    ring.setAttribute("stroke",agent.color+"30"); ring.setAttribute("stroke-width","1.2"); ring.setAttribute("fill","transparent");
+  }
+}
+
+function gfxEdgesOn(agentId, on) {
+  const a=AGENTS.find(x=>x.id===agentId); if(!a) return;
+  a.peers.forEach(p=>{
+    const k1=agentId+"-"+p, k2=p+"-"+agentId;
+    document.querySelectorAll(".peer-edge").forEach(el=>{
+      const k=el.dataset.from+"-"+el.dataset.to;
+      if(k===k1||k===k2){el.setAttribute("stroke",on?a.color+"55":"rgba(0,0,0,.08)");el.setAttribute("stroke-width",on?"2":"1.5");}
+    });
+    document.querySelectorAll(".particle").forEach(el=>{
+      if(el.dataset.edge===k1||el.dataset.edge===k2) el.setAttribute("opacity",on?"0.8":"0");
+    });
+  });
+}
+
+function gfxSosOn(on) {
+  document.querySelectorAll(".sos-edge").forEach(el=>{
+    el.setAttribute("stroke",on?"rgba(0,48,135,.3)":"rgba(0,48,135,.1)");
+    el.setAttribute("stroke-width",on?"1.5":"1");
+  });
+  document.querySelectorAll(".sos-particle").forEach(el=>el.setAttribute("opacity",on?"0.65":"0"));
+}
+
+/* ─── WIDGETS ─── */
+function buildWidgets() {
+  const c=document.getElementById("agentWidgets");
+  let h="";
+  AGENTS.forEach(a=>{
+    h+=`<div class="agent-widget" id="aw-${a.id}" style="border-left:3px solid ${a.color}50">
+      <style>#aw-${a.id}::before{background:${a.color}}</style>
+      <div class="aw-head">
+        <div class="aw-icon" style="background:${a.color}15;color:${a.color};border:1px solid ${a.color}30">${a.icon}</div>
+        <div class="aw-name">${a.short}</div>
+        <div class="aw-status" id="aws-${a.id}" style="background:rgba(0,0,0,.05);color:var(--text-3)">Standby</div>
+      </div>
+      <div class="aw-desc">${a.desc}</div>
+    </div>`;
+  });
+  h+=`<div class="agent-widget" style="grid-column:1/-1;border-left:3px solid rgba(0,48,135,.4)">
+    <div class="aw-head">
+      <div class="aw-icon" style="background:rgba(0,48,135,.08);color:var(--navy);border:1px solid rgba(0,48,135,.2)">★</div>
+      <div class="aw-name">Chief Executive's Office</div>
+      <div class="aw-status" id="aws-sos" style="background:rgba(0,0,0,.05);color:var(--text-3)">Awaiting</div>
+    </div>
+    <div class="aw-desc">Synthesises all division analyses into a single executive briefing with headline regulatory assessment, cross-cutting risks, and recommended response options.</div>
+  </div>`;
+  c.innerHTML=h;
+}
+
+function widgetStatus(id, text, color) {
+  const el=document.getElementById("aws-"+id);
+  if(el){el.textContent=text;el.style.background=color+"1A";el.style.color=color;}
+}
+
+/* ─── EXAMPLES ─── */
+function buildExamples() {
+  const c=document.getElementById("exList");
+  EXAMPLES.forEach(ex=>{
+    const b=document.createElement("button");
+    b.className="ex-btn"; b.textContent=ex;
+    b.onclick=()=>{document.getElementById("scenarioInput").value=ex;checkInput();};
+    c.appendChild(b);
+  });
+}
+
+/* ─── INPUT ─── */
+function checkInput() {
+  const b=document.getElementById("goBtn"); if(!b) return;
+  const i=document.getElementById("scenarioInput");
+  b.disabled=!i.value.trim()||(phase!=="idle"&&phase!=="complete");
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  const i=document.getElementById("scenarioInput");
+  if(i) i.addEventListener("input",checkInput);
+});
+
+/* ─── LOG ─── */
+function addLog(type, text) {
+  const p=document.getElementById("logPanel"); if(!p) return;
+  if(p.querySelector("span")) p.innerHTML="";
+  const ts=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+  const d=document.createElement("div");
+  d.innerHTML=`<span style="opacity:.4">${ts}</span> <span class="${type==="system"?"sys":type==="error"?"err":""}">${text}</span>`;
+  p.appendChild(d); p.scrollTop=p.scrollHeight;
+}
+
+/* ─── RENDER OUTPUTS ─── */
+function renderOutputs() {
+  const sec=document.getElementById("outputSection");
+  const grid=document.getElementById("agentOutputsGrid");
+  const bArea=document.getElementById("briefingArea");
+  if(!Object.keys(agentOutputs).length&&!briefingText){sec.style.display="none";return;}
+  sec.style.display="block";
+  let h="";
+  AGENTS.forEach(a=>{
+    if(!agentOutputs[a.id]) return;
+    h+=`<div class="ao-card">
+      <div class="ao-head">
+        <span class="ao-icon" style="color:${a.color}">${a.icon}</span>
+        <span class="ao-name" style="color:${a.color}">${a.short}</span>
+        ${crossRefOutputs[a.id]?`<span class="ao-badge" style="background:${a.color}15;color:${a.color}">+ cross-ref</span>`:""}
+      </div>
+      <div class="ao-body">${agentOutputs[a.id]}</div>
+      ${crossRefOutputs[a.id]?`<div class="ao-xref"><div class="ao-xref-label">Cross-referral update</div><div class="ao-xref-body">${crossRefOutputs[a.id]}</div></div>`:""}
+    </div>`;
+  });
+  grid.innerHTML=h;
+  if(briefingText){
+    bArea.innerHTML=`<div class="briefing-box fade-up">
+      <div class="brief-head">
+        <span class="brief-star">★</span>
+        <div><div class="brief-title">Executive briefing</div><div class="brief-sub">Synthesised from 7 division agents</div></div>
+        <span class="brief-badge">Final</span>
+      </div>
+      <div class="brief-body">${renderMd(briefingText)}</div>
+    </div>`;
+  }
+}
+
+function renderMd(t) {
+  if(!t) return "";
+  return t
+    .replace(/^#### (.+)$/gm,'<h4>$1</h4>')
+    .replace(/^### (.+)$/gm,'<h4>$1</h4>')
+    .replace(/^## (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^# (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^\- (.+)$/gm,'<li>$1</li>')
+    .replace(/^\* (.+)$/gm,'<li>$1</li>')
+    .replace(/^\d+\. (.+)$/gm,'<li>$1</li>')
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/\n/g,'<br>');
+}
+
+/* ─── PHASE ─── */
+function setPhase(p) {
+  phase=p;
+  const dot=document.getElementById("mainDot");
+  const label=document.getElementById("phaseLabel");
+  if(dot) dot.className="hero-dot "+(p==="idle"?"idle":p==="complete"?"done":"active");
+  const labels={idle:"Standing by",analyzing:"Phase 1 — Initial analysis","cross-ref":"Phase 2 — Cross-referral",synthesizing:"Phase 3 — Synthesis",complete:"Briefing ready"};
+  if(label) label.textContent=labels[p]||p;
+  document.getElementById("navStatus").textContent=p==="idle"?"Platform live":p==="complete"?"Briefing ready":"Network active";
+  checkInput();
+  const b=document.getElementById("goBtn"); if(!b) return;
+  if(p==="idle"||p==="complete"){b.textContent="Activate network";b.className="btn btn-go";b.onclick=runNetwork;}
+  else{b.textContent="Halt network";b.className="btn btn-halt";b.disabled=false;b.onclick=()=>{controller&&controller.abort();};}
+}
+
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+
+/* ─── SIMULATION DATA ─── */
+const SIM_P1={
+  supervision:"This scenario directly impacts our supervisory portfolio. We need to assess which regulated firms are affected and their current risk categorisation. Consumer Duty obligations require firms to act to deliver good outcomes — any failure in this area triggers our supervisory intervention framework. We will activate enhanced monitoring for the affected sector, using data analytics to identify firms most at risk of consumer harm. Coordination needed with Enforcement on potential misconduct, with Authorisations on gateway implications, and with Payments & Digital on any payment system impacts.",
+  enforcement:"Enforcement & Market Oversight must determine whether this scenario involves regulatory breaches warranting investigation. Under our revised strategy, we focus on fewer, faster cases with maximum deterrent effect. We will deploy intelligence capabilities to assess the scope of potential misconduct and whether criminal enforcement tools are appropriate. Market surveillance systems need to be calibrated for related trading anomalies. Key question for Supervision: what did routine oversight reveal before this event escalated?",
+  authorisations:"The Authorisations gateway must be assessed for vulnerabilities exposed by this scenario. We need to review whether our permissions processes would have detected the risk factors at entry. Any firms requiring emergency variations of permission will need fast-track processing. The Senior Managers & Certification Regime implications are significant — individual accountability must be traced. Coordination with Legal on fitness & propriety assessments is essential.",
+  payments:"Payment system integrity and continuity must be assessed immediately. If consumer access to funds is affected, APP fraud reimbursement processes may see increased claims. Open banking channels could provide alternative access routes for affected consumers. The crypto permissions gateway timeline should be reviewed if digital asset firms are involved. We need to coordinate with Supervision on firm-level payment resilience assessments.",
+  markets:"Wholesale market implications need rapid assessment. Any publicly listed firms involved will trigger listing rule and disclosure obligations. Market abuse surveillance must be enhanced for related instruments — we have reduced assessment time from three days to hours. Competition implications of the scenario should be analysed for sector concentration effects.",
+  consumers:"Consumer Duty is the governing framework here. Affected consumers need clear communication about their rights, the firm's obligations, and available redress. We must assess vulnerability impacts — this scenario likely disproportionately affects customers in vulnerable circumstances. Financial Ombudsman Service should be briefed for expected complaint volumes.",
+  legal:"Legal division must provide immediate advice on the FCA's statutory powers applicable to this scenario. FSMA enforcement tools, including section 166 skilled person reviews and potential use of own-initiative requirements, should be assessed. Risk & Compliance Oversight must assess whether our own processes contributed to delayed detection."
+};
+const SIM_P2={
+  supervision:"Cross-referral confirms alignment with Enforcement on the need for rapid misconduct assessment, but tension exists over the boundary between supervisory intervention and formal investigation. Revised position: recommend tiered supervisory response — immediate enhanced monitoring for directly affected firms, broader sector review within 30 days.",
+  enforcement:"Supervision's data on pre-existing risk indicators will be critical to scope our investigation efficiently. Revised position: open a preliminary assessment within 48 hours, with a decision on full investigation within two weeks. Parallel criminal referral pathway if evidence threshold is met.",
+  authorisations:"Legal's point about own-initiative requirements is directly relevant — we may need to impose immediate conditions on affected firms' permissions. Revised position: immediate review of all firms in the affected sector authorised in the last 24 months.",
+  payments:"Markets' analysis of systemic risk confirms our concern about payment continuity. Consumer Protection's vulnerability framework should inform our prioritisation of payment restoration. Position unchanged: payment system resilience is the immediate operational priority.",
+  markets:"Enforcement's preliminary assessment timeline is reasonable. Consumer Protection's point about redress methodology is important for market confidence. Revised position: recommend immediate disclosure requirements for all listed entities with material exposure.",
+  consumers:"Supervision's tiered approach is appropriate but must prioritise firms with highest consumer exposure. Revised position: recommend FCA-led consumer communications within 24 hours, regardless of investigation timeline.",
+  legal:"Enforcement and Authorisations' positions are legally sound. Key risk: any use of own-initiative powers must be properly evidenced to withstand judicial review. Revised position: Legal to provide standing advice to all divisions throughout the response."
+};
+const SIM_BRIEFING=`# Executive briefing
+
+## Headline regulatory assessment
+
+This scenario represents a significant cross-cutting regulatory event engaging all FCA divisions. The core tension is between the speed of protective intervention for consumers and the procedural rigour required for enforcement action that will withstand legal challenge.
+
+## Key risks by division
+
+**Supervision** — Pre-existing supervisory intelligence may be questioned. Enhanced monitoring needs rapid deployment with Consumer Duty compliance as the primary lens.
+
+**Enforcement** — Scope and speed of investigation is critical. The FCA's commitment to fewer, faster cases is tested.
+
+**Authorisations** — Gateway quality is under scrutiny. A retrospective review of recently authorised firms in the affected sector is prudent.
+
+**Payments & Digital** — Payment continuity for affected consumers is the immediate operational priority.
+
+**Markets** — Market integrity requires enhanced surveillance. Disclosure obligations for listed entities must be enforced rapidly.
+
+**Consumer Protection** — Consumer Duty requires proactive communication. Redress framework must be established early.
+
+**Legal & Governance** — Procedural integrity is essential. Use of own-initiative powers must be legally robust.
+
+## Cross-cutting tensions
+
+1. **Speed vs. legal robustness** — Enforcement wants rapid action; Legal warns that procedurally flawed interventions will be challenged.
+2. **Consumer communication vs. investigation integrity** — Consumer Protection wants immediate public communications; Enforcement is concerned about prejudicing proceedings.
+3. **Growth objective vs. protective intervention** — The FCA's secondary competitiveness objective creates pressure to avoid disproportionate responses, but consumer harm demands decisive action.
+
+## Recommended options
+
+**Option A — Supervisory-led.** Deploy enhanced supervision. Issue Consumer Duty requirements. Reserve enforcement for clear misconduct. Lower legal risk.
+
+**Option B — Enforcement-led.** Open formal investigation within 48 hours. Use own-initiative powers. Stronger deterrent but slower consumer redress.
+
+**Option C — Integrated response (recommended).** Supervision leads immediate consumer protection measures. Enforcement opens parallel preliminary assessment. Authorisations reviews gateway. Consumer Protection manages public communications. Legal provides standing counsel. This delivers speed on consumer protection while building the evidence base for proportionate enforcement.`;
+
+/* ─── RUN NETWORK ─── */
+async function runNetwork() {
+  const scenario=document.getElementById("scenarioInput").value.trim(); if(!scenario) return;
+  controller=new AbortController();
+  agentOutputs={}; crossRefOutputs={}; briefingText="";
+  document.getElementById("logPanel").innerHTML="";
+  AGENTS.forEach(a=>{gfxNodeUpdate(a.id,"standby",false);gfxEdgesOn(a.id,false);widgetStatus(a.id,"Standby","rgba(0,0,0,.3)");});
+  gfxNodeUpdate("sos","awaiting",false);gfxSosOn(false);widgetStatus("sos","Awaiting","rgba(0,0,0,.3)");
+  renderOutputs(); setPhase("analyzing");
+  addLog("system","[SYS] Network activated — distributing scenario to all agents");
+
+  let useApi=true;
+  try {
+    const test=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},signal:controller.signal,body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:100,messages:[{role:"user",content:"test"}]})});
+    if(!test.ok&&test.status!==400) useApi=false;
+  } catch(e) {
+    if(e.name==="AbortError"){setPhase("idle");return;}
+    useApi=false;
+  }
+
+  if(!useApi){addLog("system","[SYS] Running in simulation mode"); await runSimulation(scenario); return;}
+
+  try {
+    const p1={};
+    await Promise.all(AGENTS.map(async a=>{
+      gfxNodeUpdate(a.id,"analysing...",true);gfxEdgesOn(a.id,true);
+      widgetStatus(a.id,"Analysing...",a.color);
+      addLog("agent",`<span style="color:${a.color}">[${a.short}]</span> initialising`);
+      const r=await callAgent(`${a.mandate}\n\nKeep analysis to 150-200 words.`,`SCENARIO:\n${scenario}\n\nProvide: (1) direct impacts, (2) immediate actions, (3) cross-departmental issues.`,controller.signal);
+      p1[a.id]=r; agentOutputs[a.id]=r;
+      gfxNodeUpdate(a.id,"done",false);gfxEdgesOn(a.id,false);
+      widgetStatus(a.id,"Done","#22C37A");
+      addLog("agent",`<span style="color:#22C37A">[✓ ${a.short}]</span> initial analysis complete`);
+      renderOutputs();
+    }));
+
+    addLog("system","[SYS] Phase 1 complete — initiating cross-referral"); setPhase("cross-ref");
+    const p2={};
+    await Promise.all(AGENTS.map(async a=>{
+      const ctx=a.peers.filter(p=>p1[p]).map(p=>`[${AGENTS.find(x=>x.id===p).short}]:\n${p1[p]}`).join("\n\n");
+      if(!ctx){p2[a.id]=p1[a.id];return;}
+      gfxNodeUpdate(a.id,"cross-ref...",true);gfxEdgesOn(a.id,true);
+      widgetStatus(a.id,"Cross-ref...",a.color);
+      addLog("agent",`<span style="color:${a.color}">[⇄ ${a.short}]</span> reviewing peers`);
+      const r=await callAgent(`${a.mandate}\n\nCross-referral phase. 100-150 words: agreements, tensions, revised position.`,`YOUR ASSESSMENT:\n${p1[a.id]}\n\nPEERS:\n${ctx}`,controller.signal);
+      p2[a.id]=r; crossRefOutputs[a.id]=r;
+      gfxNodeUpdate(a.id,"cross-ref done",false);gfxEdgesOn(a.id,false);
+      widgetStatus(a.id,"Cross-ref done","#22C37A");
+      addLog("agent",`<span style="color:#22C37A">[✓ ${a.short}]</span> cross-referral complete`);
+      renderOutputs();
+    }));
+
+    addLog("system","[SYS] Initiating synthesis"); setPhase("synthesizing");
+    gfxNodeUpdate("sos","synthesising...",true);gfxSosOn(true);widgetStatus("sos","Synthesising...","#003087");
+    const allCtx=AGENTS.map(a=>`=== ${a.short} ===\nINITIAL: ${p1[a.id]||"N/A"}\nCROSS-REF: ${p2[a.id]||"N/A"}`).join("\n\n");
+    briefingText=await callAgent(SOS.mandate,`SCENARIO:\n${scenario}\n\nANALYSES:\n${allCtx}\n\nProduce the ministerial briefing.`,controller.signal);
+    gfxNodeUpdate("sos","briefing ready",false);gfxSosOn(false);widgetStatus("sos","Briefing ready","#22C37A");
+    addLog("system","[SYS] Ministerial briefing complete"); setPhase("complete"); renderOutputs();
+
+  } catch(err) {
+    if(err.name==="AbortError"){
+      addLog("system","[SYS] Network halted");
+      AGENTS.forEach(a=>{gfxNodeUpdate(a.id,"standby",false);gfxEdgesOn(a.id,false);widgetStatus(a.id,"Standby","rgba(0,0,0,.3)");});
+      gfxNodeUpdate("sos","awaiting",false);gfxSosOn(false);widgetStatus("sos","Awaiting","rgba(0,0,0,.3)");
+      setPhase("idle");renderOutputs();
+    } else {
+      addLog("system","[SYS] API unavailable — switching to simulation mode");
+      await runSimulation(scenario);
+    }
+  }
+}
+
+async function callAgent(sys, usr, signal) {
+  const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},signal,body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:sys,messages:[{role:"user",content:usr}]})});
+  if(!r.ok) throw new Error("API "+r.status);
+  const d=await r.json();
+  return (d.content||[]).map(b=>b.text||"").join("\n");
+}
+
+/* ─── SIMULATION ─── */
+async function runSimulation(scenario) {
+  try {
+    for(let i=0;i<AGENTS.length;i++){
+      if(controller.signal.aborted) throw new DOMException("","AbortError");
+      const a=AGENTS[i];
+      gfxNodeUpdate(a.id,"analysing...",true);gfxEdgesOn(a.id,true);
+      widgetStatus(a.id,"Analysing...",a.color);
+      addLog("agent",`<span style="color:${a.color}">[${a.short}]</span> initialising`);
+      await wait(800+Math.random()*600);
+      agentOutputs[a.id]=SIM_P1[a.id];
+      gfxNodeUpdate(a.id,"done",false);gfxEdgesOn(a.id,false);
+      widgetStatus(a.id,"Done","#22C37A");
+      addLog("agent",`<span style="color:#22C37A">[✓ ${a.short}]</span> initial analysis complete`);
+      renderOutputs(); await wait(300);
+    }
+    await wait(600); addLog("system","[SYS] Phase 1 complete — initiating cross-referral"); setPhase("cross-ref");
+    AGENTS.forEach(a=>{gfxEdgesOn(a.id,true);gfxNodeUpdate(a.id,"cross-ref...",true);widgetStatus(a.id,"Cross-ref...",a.color);});
+    await wait(1200);
+    for(let i=0;i<AGENTS.length;i++){
+      if(controller.signal.aborted) throw new DOMException("","AbortError");
+      const a=AGENTS[i];
+      addLog("agent",`<span style="color:${a.color}">[⇄ ${a.short}]</span> reviewing peers`);
+      await wait(600+Math.random()*500);
+      crossRefOutputs[a.id]=SIM_P2[a.id];
+      gfxNodeUpdate(a.id,"cross-ref done",false);gfxEdgesOn(a.id,false);
+      widgetStatus(a.id,"Cross-ref done","#22C37A");
+      addLog("agent",`<span style="color:#22C37A">[✓ ${a.short}]</span> cross-referral complete`);
+      renderOutputs(); await wait(200);
+    }
+    await wait(600); addLog("system","[SYS] Synthesis commencing"); setPhase("synthesizing");
+    gfxNodeUpdate("sos","synthesising...",true);gfxSosOn(true);widgetStatus("sos","Synthesising...","#003087");
+    await wait(4000);
+    briefingText=SIM_BRIEFING;
+    gfxNodeUpdate("sos","briefing ready",false);gfxSosOn(false);widgetStatus("sos","Briefing ready","#22C37A");
+    addLog("system","[SYS] Ministerial briefing complete"); setPhase("complete"); renderOutputs();
+  } catch(err) {
+    if(err.name==="AbortError") addLog("system","[SYS] Network halted");
+    AGENTS.forEach(a=>{gfxNodeUpdate(a.id,"standby",false);gfxEdgesOn(a.id,false);widgetStatus(a.id,"Standby","rgba(0,0,0,.3)");});
+    gfxNodeUpdate("sos","awaiting",false);gfxSosOn(false);widgetStatus("sos","Awaiting","rgba(0,0,0,.3)");
+    setPhase("idle"); renderOutputs();
+  }
+}
+</script>
+</body>
+</html>
